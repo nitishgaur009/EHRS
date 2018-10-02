@@ -1,16 +1,20 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EHRS.DAL.Entity
 {
+    using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("UserRole")]
+    [Table(nameof(UserRole))]
     public partial class UserRole
     {
-        [Key]
         public int Id { get; set; }
     
         public int RoleId { get; set; }
         public int UserId { get; set; }
+
+        [ForeignKey(nameof(RoleId))]
+        public virtual Role Role { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        public virtual UserLogin UserData { get; set; }
     }
 }
