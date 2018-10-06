@@ -34,9 +34,6 @@
       <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EHRS.DAL">
-      <HintPath>..\EHRS.DAL\bin\Debug\EHRS.DAL.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -62,13 +59,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EHRS.Common\3. EHRS.Common.csproj">
-      <Project>{82a6f9d7-eec5-4707-8962-089de6719e9e}</Project>
-      <Name>3. EHRS.Common</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\EHRS.Common\4. EHRS.Common.csproj">
+      <Project>{82a6f9d7-eec5-4707-8962-089de6719e9e}</Project>
+      <Name>4. EHRS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EHRS.DAL\3. EHRS.DAL.csproj">
+      <Project>{4cef9e6f-3bd8-417c-b331-fcbda45ac8ae}</Project>
+      <Name>3. EHRS.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
