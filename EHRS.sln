@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHRS.DAL", "EHRS.DAL\EHRS.DAL.csproj", "{EE6CBC92-2801-4B8F-95D9-A0C87A0CEE3F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2. EHRS.BLL", "EHRS.BLL\2. EHRS.BLL.csproj", "{CF0AF20E-511F-4AFE-98CF-5A83D6DFE81C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3. EHRS.Common", "EHRS.Common\3. EHRS.Common.csproj", "{82A6F9D7-EEC5-4707-8962-089DE6719E9E}"
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EE6CBC92-2801-4B8F-95D9-A0C87A0CEE3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE6CBC92-2801-4B8F-95D9-A0C87A0CEE3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE6CBC92-2801-4B8F-95D9-A0C87A0CEE3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE6CBC92-2801-4B8F-95D9-A0C87A0CEE3F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CF0AF20E-511F-4AFE-98CF-5A83D6DFE81C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF0AF20E-511F-4AFE-98CF-5A83D6DFE81C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF0AF20E-511F-4AFE-98CF-5A83D6DFE81C}.Release|Any CPU.ActiveCfg = Release|Any CPU
