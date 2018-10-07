@@ -184,12 +184,14 @@
     <Compile Include="App_Start\TokenValidationHandler.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Common\Common.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
-    <Compile Include="Filter\AuthorizationFilter.cs" />
+    <Compile Include="Filter\Authorization.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Common\BaseController.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\RoleViewModel.cs" />

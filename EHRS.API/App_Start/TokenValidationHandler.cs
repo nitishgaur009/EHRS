@@ -7,9 +7,13 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Security.Claims;
+    using System.Security.Principal;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web;
+    using System.Web.Script.Serialization;
+    using ViewModels;
 
     public class TokenValidationHandler : DelegatingHandler
     {
@@ -49,16 +53,20 @@
                 JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
                 TokenValidationParameters validationParameters = new TokenValidationParameters()
                 {
-                    ValidIssuer = nameof(EHRS.API),
+                    ValidIssuer = "EHRS.API",
+                    ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     LifetimeValidator = this.LifetimeValidator,
                     IssuerSigningKey = securityKey
                 };
 
-                // Extract and assign the user of the jwt
-                Thread.CurrentPrincipal = handler.ValidateToken(token, validationParameters, out securityToken);
-                HttpContext.Current.User = handler.ValidateToken(token, validationParameters, out securityToken);
+                var claims = handler.ValidateToken(token, validationParameters, out securityToken);
+                if(claims != null)
+                {
+                    Thread.CurrentPrincipal = claims;
+                    HttpContext.Current.User = claims;
+                }
 
                 return base.SendAsync(request, cancellationToken);
             }

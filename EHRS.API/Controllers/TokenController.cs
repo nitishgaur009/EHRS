@@ -54,16 +54,16 @@ namespace EHRS.API.Controllers
             SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(security));
 
             List<Claim> claimsData = new List<Claim>();
+
             claimsData.Add(new Claim("UserAuthData", new JavaScriptSerializer().Serialize(userAuthData)));
 
             var token = new JwtSecurityToken(
-                    issuer: "EHRS.API",
-                    audience: "localhost:4200",
-                    claims: claimsData,
-                    notBefore: DateTime.UtcNow,
-                    expires: DateTime.Now.AddMinutes(180),
-                    signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
-                );
+                issuer: "EHRS.API",
+                claims: claimsData,
+                notBefore: DateTime.UtcNow,
+                expires: DateTime.UtcNow.AddMinutes(180),
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+            );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

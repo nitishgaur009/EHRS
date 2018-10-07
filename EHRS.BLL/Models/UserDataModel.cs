@@ -4,6 +4,11 @@ namespace EHRS.BLL.Models
 {
     public class UserDataModel
     {
+        public UserDataModel()
+        {
+            Roles = new HashSet<RoleModel>();
+        }
+
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

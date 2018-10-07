@@ -6,7 +6,7 @@ using System.Web.Http;
 
 namespace EHRS.API.Controllers
 {
-    public class HomeController : ApiController
+    public class HomeController : BaseController
     {
         IUserService _userService;
 
@@ -35,8 +35,8 @@ namespace EHRS.API.Controllers
                 }
             };
 
-            bool blnAdded = _userService.RegisterUser(userModel, "admin", new UserDataModel());
-            return Ok(blnAdded);
+           // bool blnAdded = _userService.RegisterUser(userModel, "admin", new UserDataModel());
+            return Ok();
         }
     }
 }
