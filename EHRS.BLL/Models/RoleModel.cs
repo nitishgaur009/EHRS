@@ -1,9 +1,9 @@
-﻿
-namespace EHRS.BLL.Models
+﻿namespace EHRS.BLL.Models
 {
     public class RoleModel
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
     }
 }

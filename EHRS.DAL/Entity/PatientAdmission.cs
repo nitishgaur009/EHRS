@@ -18,12 +18,12 @@ namespace EHRS.DAL.Entity
         public System.DateTime AdmissionDate { get; set; }
         public string AdmissionNotes { get; set; }
         public Nullable<System.DateTime> DischargeDate { get; set; }
-        public int BillingId { get; set; }
+        public Nullable<int> BillingId { get; set; }
 
         [ForeignKey(nameof(PatientId))]
         public virtual UserLogin PatientDetail { get; set; }
 
-        [ForeignKey(nameof(BillingId))]
+        [ForeignKey(nameof(Id))]
         public virtual Billing Billing { get; set; }
 
         public virtual ICollection<PatientAdmissonDetail> PatientAdmissionDetails { get; set; }

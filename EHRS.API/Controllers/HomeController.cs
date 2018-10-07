@@ -2,9 +2,6 @@
 using EHRS.BLL.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace EHRS.API.Controllers
@@ -18,13 +15,28 @@ namespace EHRS.API.Controllers
             _userService = userService;
         }
 
-
         [HttpGet]
         public IHttpActionResult RegisterUser()
         {
-            UserLoginModel userData = new UserLoginModel();
-            _userService.RegisterUser(userData, "hello");
-            return Ok();
+            UserDataModel userModel = new UserDataModel()
+            {
+                FirstName = "Admin",
+                LastName = "Admin",
+                Address = "Admin",
+                Email = "admin@ehrs.com",
+                BirthDate = Convert.ToDateTime("1990-01-01"),
+                MobileNumber = 9811816005,
+                Roles = new List<RoleModel>()
+                {
+                    new RoleModel()
+                    {
+                        Id = 1
+                    }
+                }
+            };
+
+            bool blnAdded = _userService.RegisterUser(userModel, "admin", new UserDataModel());
+            return Ok(blnAdded);
         }
     }
 }

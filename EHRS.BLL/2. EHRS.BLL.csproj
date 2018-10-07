@@ -53,9 +53,9 @@
     <Compile Include="AutoMapper\Mapping.cs" />
     <Compile Include="AutoMapper\MappingProfile.cs" />
     <Compile Include="Concrete\UserService.cs" />
+    <Compile Include="Models\UserDataModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
-    <Compile Include="Models\UserLoginModel.cs" />
-    <Compile Include="Models\UserRoleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

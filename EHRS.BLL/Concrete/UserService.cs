@@ -1,9 +1,10 @@
 ﻿using EHRS.BLL.Abstract;
+using EHRS.BLL.AutoMapper;
 using EHRS.BLL.Models;
-using EHRS.DAL.Abstract;
 using EHRS.DAL;
-using AutoMapper;
+using EHRS.DAL.Abstract;
 using EHRS.DAL.Entity;
+using System.Text;
 
 namespace EHRS.BLL.Concrete
 {
@@ -12,40 +13,47 @@ namespace EHRS.BLL.Concrete
         IUserLoginRepository _userDataRepo;
         IUnitOfWork _unitOfWork;
 
-        public UserService(IUserLoginRepository repo, IUnitOfWork unitOfWork)
+        public UserService(IUserLoginRepository userRepo, IUnitOfWork unitOfWork)
         {
-            _userDataRepo = repo;
+            _userDataRepo = userRepo;
             _unitOfWork = unitOfWork;
         }
 
-        public UserService()
+        public UserDataModel Login(LoginModel loginModel)
         {
-
-        }
-
-        public UserLoginModel Login(string email, string password)
-        {
-            UserLoginModel userLoginModel = null;
-            byte[] passwordByte = new byte[] { };//= Convert.ToSByte(password);
-            var userLoginEntity = _userDataRepo.SingleOrDefault(u => u.Email == email && u.Password == passwordByte);
+            UserDataModel userDataModel = null;
+            byte[] passwordByte = Encoding.ASCII.GetBytes(loginModel.Password);
+            var userLoginEntity = _userDataRepo.SingleOrDefault(u => u.Email == loginModel.Email && u.Password == passwordByte);
             if (userLoginEntity != null)
             {
-                userLoginModel = Mapper.Map<UserLoginModel>(userLoginEntity);
+                userDataModel = Mapping.Mapper.Map<UserDataModel>(userLoginEntity);
+                foreach(var role in userLoginEntity.UserRole)
+                {
+                    userDataModel.Roles.Add(Mapping.Mapper.Map<RoleModel>(role.Role));
+                }
             }
 
-            return userLoginModel;
+            return userDataModel;
         }
 
-        public bool RegisterUser(UserLoginModel userLoginModel, string password)
+        public bool RegisterUser(UserDataModel userDataModel, string password, UserDataModel loggedUser)
         {
-            byte[] passwordByte = new byte[] { };//= Convert.ToSByte(password);
-            UserLogin userLoginEntity = Mapper.Map<UserLogin>(userLoginModel);
-
+            byte[] passwordByte = Encoding.ASCII.GetBytes(password);
+            UserLogin userLoginEntity = Mapping.Mapper.Map<UserLogin>(userDataModel);
             userLoginEntity.Password = passwordByte;
-            // _unitOfWork.UserLoginRepository.Add(userLoginEntity);
-            //return _unitOfWork.Complete() > 0;        
+            userLoginEntity.Active = true;
 
-            return true;   
+            foreach(var role in userDataModel.Roles)
+            {
+                userLoginEntity.UserRole.Add(new UserRole
+                {
+                    RoleId = role.Id
+                });
+            }
+
+            _unitOfWork.UserLoginRepository.Add(userLoginEntity);
+
+            return _unitOfWork.Complete() > 0;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace EHRS.DAL.Concrete
 {
     public class PatientLabReportBinaryDataRepository : Repository<PatientLabReportBinaryData>, IPatientLabReportBinaryDataRepository
     {
-        public PatientLabReportBinaryDataRepository(DbContext context) : base(context)
+        public PatientLabReportBinaryDataRepository(EHRSdbContext context) : base(context)
         {
         }
     }

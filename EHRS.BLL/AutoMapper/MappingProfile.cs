@@ -8,8 +8,10 @@ namespace EHRS.BLL.AutoMapper
     {
         public MappingProfile()
         {
-            CreateMap<UserLogin, UserLoginModel>();
-            CreateMap<UserLoginModel, UserLogin>();
+            CreateMap<UserLogin, UserDataModel>();
+            CreateMap<UserDataModel, UserLogin>();
+            CreateMap<Role, RoleModel>();
+            CreateMap<RoleModel, Role>();
         }
     }
 }

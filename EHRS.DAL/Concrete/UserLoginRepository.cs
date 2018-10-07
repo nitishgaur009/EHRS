@@ -6,7 +6,7 @@ namespace EHRS.DAL.Concrete
 {
     public class UserLoginRepository : Repository<UserLogin>, IUserLoginRepository
     {
-        public UserLoginRepository(DbContext context) : base(context)
+        public UserLoginRepository(EHRSdbContext context) : base(context)
         {
         }
     }

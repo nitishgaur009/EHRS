@@ -1,5 +1,6 @@
 ﻿namespace EHRS.DAL
 {
+    using Entity;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -8,9 +9,9 @@
 
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly DbContext _context;
+        protected readonly EHRSdbContext _context;
 
-        public Repository(DbContext context)
+        public Repository(EHRSdbContext context)
         {
             _context = context;
         }

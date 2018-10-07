@@ -5,8 +5,8 @@ namespace EHRS.BLL.Abstract
 {
     public interface IUserService
     {
-        UserLoginModel Login(string email, string password);
+        UserDataModel Login(LoginModel userLoginModel);
 
-        bool RegisterUser(UserLoginModel userLoginModel, string password);
+        bool RegisterUser(UserDataModel userDataModel, string password, UserDataModel loggedUser);
     }
 }

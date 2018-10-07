@@ -7,7 +7,7 @@ namespace EHRS.DAL.Concrete
 {
     public class PatientLabReportRepository : Repository<PatientLabReport>, IPatientLabReportRepository
     {
-        public PatientLabReportRepository(DbContext context) : base(context)
+        public PatientLabReportRepository(EHRSdbContext context) : base(context)
         {
         }
     }

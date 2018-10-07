@@ -7,7 +7,7 @@ namespace EHRS.DAL.Concrete
 {
     public class PatientAdmissionDetailRepository : Repository<PatientAdmissonDetail>, IPatientAdmissionDetailRepository
     {
-        public PatientAdmissionDetailRepository(DbContext context) : base(context)
+        public PatientAdmissionDetailRepository(EHRSdbContext context) : base(context)
         {
         }
     }

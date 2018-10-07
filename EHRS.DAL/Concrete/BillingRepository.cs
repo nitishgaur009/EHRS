@@ -6,7 +6,7 @@ namespace EHRS.DAL.Concrete
 {
     public class BillingRepository : Repository<Billing>, IBillingRepository
     {
-        public BillingRepository(DbContext context) : base(context)
+        public BillingRepository(EHRSdbContext context) : base(context)
         {
 
         }

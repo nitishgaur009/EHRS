@@ -26,6 +26,8 @@ namespace EHRS.DAL.Entity
             builder.Entity<PatientLabReportBinaryData>().HasKey(r => new { r.Id });
             builder.Entity<PatientOPD>().HasKey(r => new { r.Id });
             builder.Entity<PaymentMode>().HasKey(r => new { r.Id });
+
+            builder.Entity<PatientAdmission>().HasOptional(r => r.Billing).WithRequired(r => r.PatientAdmission);
         }
 
         public virtual DbSet<Billing> Billing { get; set; }
