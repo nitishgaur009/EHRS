@@ -38,7 +38,7 @@ namespace EHRS.API.Filter
                     }
                     else
                     {
-                        response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                        response = new HttpResponseMessage(HttpStatusCode.Forbidden);
                     }
                 }
             }

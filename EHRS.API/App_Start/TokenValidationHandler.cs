@@ -70,13 +70,9 @@
 
                 return base.SendAsync(request, cancellationToken);
             }
-            catch (SecurityTokenValidationException)
+            catch (Exception ex)
             {
                 statusCode = HttpStatusCode.Unauthorized;
-            }
-            catch (Exception)
-            {
-                statusCode = HttpStatusCode.InternalServerError;
             }
 
             return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(statusCode) { });

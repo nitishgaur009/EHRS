@@ -4,7 +4,12 @@ using EHRS.BLL.Models;
 using EHRS.DAL;
 using EHRS.DAL.Abstract;
 using EHRS.DAL.Entity;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using EHRS.Common.Enums;
+using System;
 
 namespace EHRS.BLL.Concrete
 {
@@ -27,10 +32,7 @@ namespace EHRS.BLL.Concrete
             if (userLoginEntity != null)
             {
                 userDataModel = Mapping.Mapper.Map<UserDataModel>(userLoginEntity);
-                foreach(var role in userLoginEntity.UserRole)
-                {
-                    userDataModel.Roles.Add(Mapping.Mapper.Map<RoleModel>(role.Role));
-                }
+                userDataModel.Roles = GetPermissions(userLoginEntity).ToList();
             }
 
             return userDataModel;
@@ -45,15 +47,49 @@ namespace EHRS.BLL.Concrete
 
             foreach(var role in userDataModel.Roles)
             {
-                userLoginEntity.UserRole.Add(new UserRole
-                {
-                    RoleId = role.Id
-                });
+                //userLoginEntity.UserRole.Add(new UserRole
+                //{
+                //    RoleId = role.Id
+                //});
             }
 
             _unitOfWork.UserLoginRepository.Add(userLoginEntity);
 
             return _unitOfWork.Complete() > 0;
+        }
+
+        private IEnumerable<string> GetPermissions(UserLogin userLoginEntity)
+        {
+            IEnumerable<string> permissions = new List<string>();
+            if(userLoginEntity.UserRole.FirstOrDefault(ur => ur.Id == (int)RoleEnum.Admin) != null)
+            {
+                permissions = Enum.GetNames(typeof(PermissionsEnum)).ToList();
+            }
+            else
+            {
+
+            }
+
+            return permissions;
+        }
+
+        private IEnumerable<string> GetPermissionOnRole(RoleEnum role)
+        {
+            IEnumerable<string> permissions = new List<string>();
+
+            switch(role)
+            {
+                case RoleEnum.Operator:
+                    permissions = new List<string>
+                    {
+                        PermissionsEnum.CanManagePatients.ToString(),
+                        PermissionsEnum.CanUpdatePatientAdmission.ToString(),
+                        PermissionsEnum.CanUpdatePatientOpdAppointment.ToString()
+                    };
+                    break;
+            }
+
+            return permissions;
         }
     }
 }

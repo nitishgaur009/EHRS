@@ -1,4 +1,5 @@
-﻿using EHRS.BLL.Abstract;
+﻿using EHRS.API.Filter;
+using EHRS.BLL.Abstract;
 using EHRS.BLL.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace EHRS.API.Controllers
         }
 
         [HttpGet]
+        [Authorization(Roles ="CanRegisterUser")]
         public IHttpActionResult RegisterUser()
         {
             UserDataModel userModel = new UserDataModel()
@@ -25,14 +27,7 @@ namespace EHRS.API.Controllers
                 Address = "Admin",
                 Email = "admin@ehrs.com",
                 BirthDate = Convert.ToDateTime("1990-01-01"),
-                MobileNumber = 9811816005,
-                Roles = new List<RoleModel>()
-                {
-                    new RoleModel()
-                    {
-                        Id = 1
-                    }
-                }
+                MobileNumber = 9811816005
             };
 
            // bool blnAdded = _userService.RegisterUser(userModel, "admin", new UserDataModel());

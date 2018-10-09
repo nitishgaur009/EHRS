@@ -6,7 +6,7 @@ namespace EHRS.BLL.Models
     {
         public UserDataModel()
         {
-            Roles = new HashSet<RoleModel>();
+            Roles = new HashSet<string>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace EHRS.BLL.Models
         public decimal MobileNumber { get; set; }
         public System.DateTime BirthDate { get; set; }
         public string Address { get; set; }
-        public ICollection<RoleModel> Roles { get; set; }
+        public ICollection<string> Roles { get; set; }
     }
 }
