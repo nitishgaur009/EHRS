@@ -2,6 +2,7 @@
 using EHRS.API.ViewModels;
 using EHRS.BLL.Abstract;
 using EHRS.BLL.Models;
+using EHRS.Common.Constants;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -50,18 +51,17 @@ namespace EHRS.API.Controllers
 
         private string GenerateToken(UserAuthDataViewModel userAuthData)
         {
-            string security = "rewkjbwfrwehbfnmb1bbervewbfvfbdskfiuhisdhbdsjfsdbfvsdfvdsvfdsfndsvfbvdsbfvsdvfdsfdsfsdfsdf234234234234ewfrew4w432rewfdfdsfsdfds";
-            SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(security));
+            SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(GlobalConstants.Token_HashKey));
 
             List<Claim> claimsData = new List<Claim>();
 
-            claimsData.Add(new Claim("UserAuthData", new JavaScriptSerializer().Serialize(userAuthData)));
+            claimsData.Add(new Claim(GlobalConstants.Key_LoggedUserInfo, new JavaScriptSerializer().Serialize(userAuthData)));
 
             var token = new JwtSecurityToken(
-                issuer: "EHRS.API",
+                issuer: GlobalConstants.Token_Issuer,
                 claims: claimsData,
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddMinutes(180),
+                expires: DateTime.UtcNow.AddMinutes(GlobalConstants.SessionTime_InMinutes),
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
             );
 

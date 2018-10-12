@@ -1,5 +1,6 @@
 ﻿namespace EHRS.API
 {
+    using EHRS.Common.Constants;
     using Microsoft.IdentityModel.Tokens;
     using System;
     using System.Collections.Generic;
@@ -7,13 +8,9 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Security.Claims;
-    using System.Security.Principal;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web;
-    using System.Web.Script.Serialization;
-    using ViewModels;
 
     public class TokenValidationHandler : DelegatingHandler
     {
@@ -21,12 +18,12 @@
         {
             token = null;
             IEnumerable<string> authzHeaders;
-            if (!request.Headers.TryGetValues("Authorization", out authzHeaders) || authzHeaders.Count() > 1)
+            if (!request.Headers.TryGetValues(GlobalConstants.RequestHeaderKey_Authorization, out authzHeaders) || authzHeaders.Count() > 1)
             {
                 return false;
             }
             var bearerToken = authzHeaders.ElementAt(0);
-            token = bearerToken.StartsWith("Bearer ") ? bearerToken.Substring(7) : bearerToken;
+            token = bearerToken.StartsWith(GlobalConstants.RequestHeaderValue_Bearer) ? bearerToken.Substring(7) : bearerToken;
             return true;
         }
 
@@ -34,30 +31,26 @@
         {
             HttpStatusCode statusCode;
             string token;
-            // determine whether a jwt exists or not
             if (!TryRetrieveToken(request, out token))
             {
                 statusCode = HttpStatusCode.Unauthorized;
-                //allow requests with no token - whether a action method needs an authentication can be set with the claimsauthorization attribute
                 return base.SendAsync(request, cancellationToken);
             }
 
             try
             {
-                const string sec = "rewkjbwfrwehbfnmb1bbervewbfvfbdskfiuhisdhbdsjfsdbfvsdfvdsvfdsfndsvfbvdsbfvsdvfdsfdsfsdfsdf234234234234ewfrew4w432rewfdfdsfsdfds";
                 var now = DateTime.UtcNow;
-                var securityKey = new SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(sec));
-
+                var securityKey = new SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(GlobalConstants.Token_HashKey));
 
                 SecurityToken securityToken;
                 JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
                 TokenValidationParameters validationParameters = new TokenValidationParameters()
                 {
-                    ValidIssuer = "EHRS.API",
+                    ValidIssuer = GlobalConstants.Token_Issuer,
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    LifetimeValidator = this.LifetimeValidator,
+                    LifetimeValidator = LifetimeValidator,
                     IssuerSigningKey = securityKey
                 };
 
@@ -70,7 +63,7 @@
 
                 return base.SendAsync(request, cancellationToken);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 statusCode = HttpStatusCode.Unauthorized;
             }
