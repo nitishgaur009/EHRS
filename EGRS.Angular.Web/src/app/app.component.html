@@ -1,0 +1,21 @@
+
+<div class="header-bar">
+</div>
+
+<div class="header-top">
+</div>
+
+<div class="navbar navbar-default">
+    <app-menu *ngIf='authenticatedData.isauthenticated'></app-menu>
+</div>
+
+<div class="container body-container" id="mainBody">
+  <router-outlet></router-outlet>
+</div>
+
+<footer id="footer" style="margin-top: 80px; margin-bottom: 50px;">
+  <hr>
+  <div class="container text-right text-footer">
+        eHospital © 2018
+  </div>
+</footer>

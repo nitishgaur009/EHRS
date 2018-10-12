@@ -10,7 +10,7 @@ namespace EHRS.API.Filter
 {
     public class Authorization : AuthorizationFilterAttribute
     {
-        public string Roles { get; set; }
+        public string[] Roles { get; set; }
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
@@ -19,15 +19,13 @@ namespace EHRS.API.Filter
 
             if (HttpContext.Current.User.Identity.IsAuthenticated && userAuthData != null)
             {
-                if (!string.IsNullOrWhiteSpace(Roles))
+                if (Roles.Length > 0)
                 {
                     var userRoles = userAuthData.Roles;
                     if (userRoles != null && userRoles.Count > 0)
                     {
-                        string[] actionRoles = Roles.Split(',');
-
                         var roleExists = (from ur in userRoles
-                                          join ar in actionRoles
+                                          join ar in Roles
                                           on ur equals ar
                                           select ur).Any();
 

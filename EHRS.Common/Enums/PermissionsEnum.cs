@@ -8,12 +8,15 @@
         CanManageLabTechnicians = 4,
         CanManageAccountants = 5,
         CanManageCompounders = 6,
-
         CanManageBilling = 7,
-        CanUpdatePatientAdmission = 8,
-        CanUpdateAdmittedPatientData = 9,
-        CanUpdatePatientLabReport = 10,
-        CanUpdatePatientOpdAppointment = 11,
-        CanUpdatePatientOpdData = 12
+        CanSchedulePatientOPD = 8,
+        CanSchedulePatientAdmission = 9,
+        CanUpdateAdmittedPatientData = 10,
+        CanUpdatePatientLabReport = 11,
+        CanUpdatePatientOpdData = 12,
+        CanViewAllPatientsHealthRecords = 13,
+        CanViewOwnHealthRecord = 14,
+        CanRegisterAllUser = 15,
+        CanRegisterPatient = 16
     }
 }

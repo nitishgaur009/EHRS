@@ -1,0 +1,37 @@
+<h2 class="text-center">Doctors List</h2>
+<br>
+
+<button class="btn btn-success pull-right" (click)='addDoctorClick()'>
+  Add Doctor
+</button>
+<table class="table table-responsive">
+  <thead>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Qualification
+      </th>
+      <th>
+        Department
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor='let doctor of doctorsData'>
+      <td>
+        {{doctor.Name}}
+      </td>
+      <td>
+        {{doctor.Qualification}}
+      </td>
+      <td>
+        {{doctor.DepartmentName}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div [hidden]='!showLoader'>
+  <p class="text-center">Loading data please wait !</p>
+</div>

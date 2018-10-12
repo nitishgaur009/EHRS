@@ -67,7 +67,10 @@ namespace EHRS.BLL.Concrete
             }
             else
             {
-
+                foreach (var role in userLoginEntity.UserRole)
+                {
+                    permissions = permissions.Union(GetPermissionOnRole((RoleEnum)role.Id));
+                }
             }
 
             return permissions;
@@ -83,8 +86,46 @@ namespace EHRS.BLL.Concrete
                     permissions = new List<string>
                     {
                         PermissionsEnum.CanManagePatients.ToString(),
-                        PermissionsEnum.CanUpdatePatientAdmission.ToString(),
-                        PermissionsEnum.CanUpdatePatientOpdAppointment.ToString()
+                        PermissionsEnum.CanSchedulePatientOPD.ToString(),
+                        PermissionsEnum.CanSchedulePatientAdmission.ToString(),
+                        PermissionsEnum.CanViewAllPatientsHealthRecords.ToString()
+                    };
+                    break;
+
+                case RoleEnum.Compounder:
+                    permissions = new List<string>
+                    {
+                        PermissionsEnum.CanUpdateAdmittedPatientData.ToString()
+                    };
+                    break;
+
+                case RoleEnum.Doctor:
+                    permissions = new List<string>
+                    {
+                        PermissionsEnum.CanUpdateAdmittedPatientData.ToString(),
+                        PermissionsEnum.CanUpdatePatientOpdData.ToString(),
+                        PermissionsEnum.CanViewAllPatientsHealthRecords.ToString()
+                    };
+                    break;
+
+                case RoleEnum.LabTechnician:
+                    permissions = new List<string>
+                    {
+                        PermissionsEnum.CanUpdatePatientLabReport.ToString()
+                    };
+                    break;
+
+                case RoleEnum.Accountant:
+                    permissions = new List<string>
+                    {
+                        PermissionsEnum.CanManageBilling.ToString()
+                    };
+                    break;
+
+                case RoleEnum.Patient:
+                    permissions = new List<string>
+                    {
+                        PermissionsEnum.CanViewOwnHealthRecord.ToString()
                     };
                     break;
             }

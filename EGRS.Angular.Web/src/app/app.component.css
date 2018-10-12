@@ -1,0 +1,29 @@
+.header-bar{
+    position:fixed;
+    top: 0;
+    height: 2px;
+    width: 100%;
+    background-color:#294a2a;
+}
+
+.header-top{
+    height: 50px;
+}
+
+.navbar-default{
+    background-color: #294a2a;
+    border-color: #185215;
+    border-radius: 0;
+    margin-bottom: 0px;
+}
+
+.text-footer{
+    text-align: right;
+    color: darkcyan;
+    padding-right: 150px;
+}
+
+.body-container{
+    min-height: 300px;
+    margin-top: 40px;
+}

@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" [routerLink]="['/home']">eHospital</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a [routerLink]="['/doctors']">Manage Doctors</a>
+      </li>
+      <li><a [routerLink]="['/patients']">Manage Patients</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a>Welcome {{authenticatedData.username}}</a>
+      </li>
+      <li>
+        <a href="#" (click)="logout()">Logout</a>
+      </li>
+    </ul>
+  </div>

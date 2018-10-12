@@ -1,0 +1,9 @@
+.navbar-brand,
+.navbar-nav>li>a{
+    color: #faf3f3cc !important;
+}
+
+.navbar-brand:focus,.navbar-brand:hover,
+.navbar-nav>li>a:hover, .navbar-nav>li>a:focus{
+    color: #fff !important;
+}

@@ -2,7 +2,6 @@
 using EHRS.BLL.Abstract;
 using EHRS.BLL.Models;
 using System;
-using System.Collections.Generic;
 using System.Web.Http;
 
 namespace EHRS.API.Controllers
@@ -17,7 +16,7 @@ namespace EHRS.API.Controllers
         }
 
         [HttpGet]
-        [Authorization(Roles ="CanRegisterUser")]
+        [Authorization(Roles = new string[] { "CanRegisterUser" })]
         public IHttpActionResult RegisterUser()
         {
             UserDataModel userModel = new UserDataModel()
