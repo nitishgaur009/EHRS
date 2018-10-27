@@ -10,42 +10,42 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loginModel : LoginModel;
+  loginModel: LoginModel;
+  errorMessage: string;
 
-  constructor(private router:Router, private authService:AuthService) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
     this.loginModel = new LoginModel();
     this.authService.logout();
   }
 
-  onLoginFormSubmit(loginFormData:NgForm):void{
-    
-    if(!loginFormData.valid){
-      alert('Please enter username and password');
+  onLoginFormSubmit(loginFormData: NgForm): void {
+    if (!loginFormData.valid) {
+      this.errorMessage = 'Please enter email and password';
     }
-    else{
-      
+    else {
       this.authService.login(loginFormData.value)
-      .subscribe(
-        ()=>{
-          if(this.authService.authenticatedData.isauthenticated){
-            if(this.authService.returnUrl){
-              this.router.navigateByUrl('/'+this.authService.returnUrl);
-              this.authService.returnUrl = '';
+        .subscribe(
+          () => {
+            if (this.authService.isAuthenticated) {
+              this.errorMessage = '';
+              if (this.authService.returnUrl) {
+                this.router.navigateByUrl('/' + this.authService.returnUrl);
+                this.authService.returnUrl = '';
+              }
+              else {
+                this.router.navigateByUrl('/home');
+              }
             }
-            else{
-              this.router.navigateByUrl('/home');
-            }        
+            else {
+              this.errorMessage = 'Invalid email or password';
+            }
+          },
+          (err) => {
+            this.errorMessage = 'Invalid email or password';
           }
-          else{
-            alert('Invalid username or password!');
-          } 
-        },
-        err=>{
-          alert('Invalid username or password!');
-        }
-      )      
+        )
     }
-  }
+  } 
 }

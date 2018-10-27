@@ -16,7 +16,7 @@
         CanUpdatePatientOpdData = 12,
         CanViewAllPatientsHealthRecords = 13,
         CanViewOwnHealthRecord = 14,
-        CanRegisterAllUser = 15,
+        CanOperateAllUser = 15,
         CanRegisterPatient = 16
     }
 }

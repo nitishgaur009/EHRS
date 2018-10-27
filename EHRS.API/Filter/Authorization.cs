@@ -1,4 +1,5 @@
 ﻿using EHRS.API.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -19,7 +20,7 @@ namespace EHRS.API.Filter
 
             if (HttpContext.Current.User.Identity.IsAuthenticated && userAuthData != null)
             {
-                if (Roles.Length > 0)
+                if (Roles !=null && Roles.Length > 0)
                 {
                     var userRoles = userAuthData.Roles;
                     if (userRoles != null && userRoles.Count > 0)

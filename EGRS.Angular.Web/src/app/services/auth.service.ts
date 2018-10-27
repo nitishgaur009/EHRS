@@ -1,59 +1,70 @@
 import { Injectable } from '@angular/core';
-import { AuthenticatedDataModel } from '../models/auth-data.models';
+import { AuthDataModel } from '../models/auth-data.models';
 import { LoginModel } from '../models/login.model';
-import { LoginData } from '../mock-login-data';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import * as jwt_decode from "jwt-decode";
+import { appConstants } from '../shared/config';
+import { IAuthData } from '../interfaces/auth-data.interface';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class AuthService {
-  public authenticatedData = new AuthenticatedDataModel();
+  public authData: IAuthData = new AuthDataModel();
+  public returnUrl: string;
 
-  public returnUrl : string;
-  private apiUrl:string =  "http://localhost:61642/api/";
+  private _isAuthenticated = new BehaviorSubject(false);
+  get isAuthenticated():boolean {
+    let isValid;
+    this._isAuthenticated.asObservable().subscribe(
+      (result) => {
+        isValid = result;
+      }
+    );
 
-  constructor(private http:HttpClient) {
-    try{
-     if(localStorage.getItem('userToken')){
-        this.authenticatedData = jwt_decode(localStorage.getItem('userToken'));
-        if(this.authenticatedData.userid > 0){
-          this.authenticatedData.isauthenticated = true;
+    return isValid;
+  }
+
+  get isCurrentlyAuthentic(): Observable<boolean> {
+    return this._isAuthenticated.asObservable();
+  }
+
+  constructor(private http: HttpClient) {
+    try {
+      if (localStorage.getItem('userToken')) {
+        this.authData = JSON.parse(jwt_decode(localStorage.getItem('userToken')).UserAuthData);
+        if (this.authData.Id > 0) {
+          this._isAuthenticated.next(true);
         }
-     }
+      }
     }
-    catch(e){
+    catch (e) {
       this.resetAuthenticatedData();
-    }     
-   }
-
-  resetAuthenticatedData():void{
-     this.authenticatedData.username = '';
-     this.authenticatedData.role = [];
-     this.authenticatedData.isauthenticated = false;
-     this.authenticatedData.userid = 0;
+    }
   }
-  
-  login(loginModel:LoginModel){
+
+  resetAuthenticatedData(): void {
+    this.authData = new AuthDataModel();
+  }
+
+  login(loginModel: LoginModel) {
     this.resetAuthenticatedData();
-    var data = "username=" + loginModel.username + "&password=" + loginModel.password;
-    var reqHeader = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded','No-Auth':'True' });
+    return this.http.post(appConstants.urls.loginUrl, loginModel)
+      .pipe(
+        tap(res => {
+          Object.assign(this.authData, JSON.parse(jwt_decode(res).UserAuthData));
+          if (this.authData.Id > 0) {
 
-   return this.http.post(this.apiUrl+ "token",data,{ headers: reqHeader })
-    .pipe(
-      tap(res => {
-        Object.assign(this.authenticatedData, jwt_decode(res));
-        debugger;
-        if(this.authenticatedData.userid > 0){
-          this.authenticatedData.isauthenticated = true;
-          localStorage.setItem("userToken", res.toString());
-        }
-      })
-    )
+            this._isAuthenticated.next(true);
+            localStorage.setItem("userToken", res.toString());
+          }
+        })
+      )
   }
 
-  logout():void{
+  logout(): void {
     this.resetAuthenticatedData();
     localStorage.removeItem("userToken");
+    this._isAuthenticated.next(false);
   }
 }

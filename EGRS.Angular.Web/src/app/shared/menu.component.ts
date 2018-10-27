@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
-import { AuthenticatedDataModel } from '../models/auth-data.models';
 
 @Component({
   selector: 'app-menu',
@@ -9,13 +7,13 @@ import { AuthenticatedDataModel } from '../models/auth-data.models';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  authenticatedData:AuthenticatedDataModel;
+  loggedUserName: string;
 
-  constructor(private authService:AuthService, private router:Router) { 
-    this.authenticatedData = authService.authenticatedData;
+  constructor(private authService: AuthService) { 
   }
 
   ngOnInit() {
+    this.loggedUserName = this.authService.authData.FirstName + ' ' + this.authService.authData.LastName;
   }
 
   logout():void{

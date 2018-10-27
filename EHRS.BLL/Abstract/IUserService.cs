@@ -1,12 +1,15 @@
 ﻿
 using EHRS.BLL.Models;
+using System.Collections.Generic;
 
 namespace EHRS.BLL.Abstract
 {
     public interface IUserService
     {
-        UserDataModel Login(LoginModel userLoginModel);
+        UserAuthDataModel Login(LoginModel userLoginModel);
 
-        bool RegisterUser(UserDataModel userDataModel, string password, UserDataModel loggedUser);
+        bool RegisterUser(UserAuthDataModel userDataModel, string password, UserAuthDataModel loggedUser);
+
+        IEnumerable<UserModel> GetAllUsers();
     }
 }

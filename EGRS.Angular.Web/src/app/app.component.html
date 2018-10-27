@@ -6,7 +6,7 @@
 </div>
 
 <div class="navbar navbar-default">
-    <app-menu *ngIf='authenticatedData.isauthenticated'></app-menu>
+    <app-menu *ngIf='authService.isAuthenticated'></app-menu>
 </div>
 
 <div class="container body-container" id="mainBody">

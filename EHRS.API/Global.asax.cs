@@ -21,8 +21,15 @@ namespace EHRS.API
             Mapper.Initialize(cfg => {
                 cfg.CreateMap<LoginViewModel, LoginModel>();
                 cfg.CreateMap<LoginModel, LoginViewModel>();
-                cfg.CreateMap<UserAuthDataViewModel, UserDataModel>();
-                cfg.CreateMap<UserDataModel, UserAuthDataViewModel>();
+
+                cfg.CreateMap<UserAuthDataViewModel, UserAuthDataModel>();
+                cfg.CreateMap<UserAuthDataModel, UserAuthDataViewModel>();
+
+                cfg.CreateMap<UserModel, UserViewModel>();
+                cfg.CreateMap<UserViewModel, UserModel>();
+
+                cfg.CreateMap<RoleViewModel, RoleModel>();
+                cfg.CreateMap<RoleModel, RoleViewModel>();
             });
         }
     }

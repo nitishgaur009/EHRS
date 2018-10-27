@@ -1,15 +1,14 @@
 ﻿using EHRS.BLL.Abstract;
 using EHRS.BLL.AutoMapper;
 using EHRS.BLL.Models;
+using EHRS.Common.Enums;
 using EHRS.DAL;
 using EHRS.DAL.Abstract;
 using EHRS.DAL.Entity;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using EHRS.Common.Enums;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace EHRS.BLL.Concrete
 {
@@ -24,21 +23,21 @@ namespace EHRS.BLL.Concrete
             _unitOfWork = unitOfWork;
         }
 
-        public UserDataModel Login(LoginModel loginModel)
+        public UserAuthDataModel Login(LoginModel loginModel)
         {
-            UserDataModel userDataModel = null;
+            UserAuthDataModel userDataModel = null;
             byte[] passwordByte = Encoding.ASCII.GetBytes(loginModel.Password);
             var userLoginEntity = _userDataRepo.SingleOrDefault(u => u.Email == loginModel.Email && u.Password == passwordByte);
             if (userLoginEntity != null)
             {
-                userDataModel = Mapping.Mapper.Map<UserDataModel>(userLoginEntity);
+                userDataModel = Mapping.Mapper.Map<UserAuthDataModel>(userLoginEntity);
                 userDataModel.Roles = GetPermissions(userLoginEntity).ToList();
             }
 
             return userDataModel;
         }
 
-        public bool RegisterUser(UserDataModel userDataModel, string password, UserDataModel loggedUser)
+        public bool RegisterUser(UserAuthDataModel userDataModel, string password, UserAuthDataModel loggedUser)
         {
             byte[] passwordByte = Encoding.ASCII.GetBytes(password);
             UserLogin userLoginEntity = Mapping.Mapper.Map<UserLogin>(userDataModel);
@@ -56,6 +55,11 @@ namespace EHRS.BLL.Concrete
             _unitOfWork.UserLoginRepository.Add(userLoginEntity);
 
             return _unitOfWork.Complete() > 0;
+        }
+
+        public IEnumerable<UserModel> GetAllUsers()
+        {
+           return _userDataRepo.GetAll().ToUserModel();
         }
 
         private IEnumerable<string> GetPermissions(UserLogin userLoginEntity)

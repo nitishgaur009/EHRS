@@ -1,0 +1,45 @@
+<h2 class="text-center">User List</h2>
+<br>
+
+<button class="btn btn-success pull-right" [routerLink]="['/users', 'user', 'create']">
+  Add User
+</button><br>
+<table class="table table-responsive">
+  <thead>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Email
+      </th>
+      <th>
+        Contact No
+      </th>
+      <th>
+          Role
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor='let user of users'>
+      <td>
+        {{user.FirstName + ' ' + user.LastName}}
+      </td>
+      <td>
+        {{user.Email}}
+      </td>
+      <td>
+        {{user.MobileNumber}}
+      </td>
+      <td>
+          <span *ngFor="let role of user.Roles">
+            {{role.Name }}
+          </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div [hidden]='!showLoader'>
+  <p class="text-center">Loading data please wait !</p>
+</div>

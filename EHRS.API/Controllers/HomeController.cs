@@ -19,7 +19,7 @@ namespace EHRS.API.Controllers
         [Authorization(Roles = new string[] { "CanRegisterUser" })]
         public IHttpActionResult RegisterUser()
         {
-            UserDataModel userModel = new UserDataModel()
+            UserAuthDataModel userModel = new UserAuthDataModel()
             {
                 FirstName = "Admin",
                 LastName = "Admin",
@@ -29,7 +29,7 @@ namespace EHRS.API.Controllers
                 MobileNumber = 9811816005
             };
 
-           // bool blnAdded = _userService.RegisterUser(userModel, "admin", new UserDataModel());
+           // bool blnAdded = _userService.RegisterUser(userModel, "admin", new UserAuthDataModel());
             return Ok();
         }
     }

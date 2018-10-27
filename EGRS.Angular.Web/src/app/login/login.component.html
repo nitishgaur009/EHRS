@@ -1,4 +1,7 @@
 <div class='login-container'>
+    <div class="alert alert-danger" *ngIf="errorMessage">
+        {{errorMessage}}
+      </div>
   <div class="text-center">
     <h1 class="text-main">
       Welocome to EHRS
@@ -7,22 +10,25 @@
     </h3>
   </div>
   <div class="login-form-container">
-    <form novalidate #loginForm="ngForm" (ngSubmit)= "onLoginFormSubmit(loginForm)">
+    <form novalidate #loginForm="ngForm" (ngSubmit)="onLoginFormSubmit(loginForm)">
       <div class="form-horizontal">
         <div class="form-group">
-          <label class="control-label col-md-2" for="username">Username</label>
+          <label class="control-label col-md-2" for="Email">Email</label>
           <div class="col-md-12">
-            <input class="form-control" autofocus #username="ngModel" [(ngModel)]="loginModel.username" id="username" name="username" type="text" required>
-            
-            <span class="text-danger" *ngIf='(username.errors && (username.dirty || username.touched))'>Please enter Username</span>
+            <input class="form-control" autofocus #Email="ngModel" [(ngModel)]="loginModel.Email" id="Email" name="Email"
+              type="text" required>
+
+            <span class="text-danger" *ngIf='(Email.errors && (Email.dirty || Email.touched))'>Please enter Email</span>
           </div>
         </div>
         <br>
         <div class="form-group">
           <label class="control-label col-md-2" for="password">Password</label>
           <div class="col-md-12">
-            <input class="form-control" #password="ngModel" [(ngModel)]="loginModel.password" id="password" name="password" type="password" required>
-            <span class="text-danger" *ngIf='password.errors && (password.dirty || password.touched)'>Please enter Password</span>
+            <input class="form-control" #Password="ngModel" [(ngModel)]="loginModel.Password" id="Password" name="Password"
+              type="password" required>
+            <span class="text-danger" *ngIf='Password.errors && (Password.dirty || Password.touched)'>Please enter
+              Password</span>
           </div>
         </div>
         <div class="form-group">

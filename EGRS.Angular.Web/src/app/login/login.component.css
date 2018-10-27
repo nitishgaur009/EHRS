@@ -18,3 +18,10 @@ input.ng-invalid.ng-touched{
     background-color: #fbe7e5;
     border: 1px solid #d69999;
 }
+
+.alert-danger {
+    color: #fff;
+    background-color: #cf1c1c;
+    border-color: #ebccd1;
+    font-size: 18px;
+}

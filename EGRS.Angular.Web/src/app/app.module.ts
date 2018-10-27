@@ -5,14 +5,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AuthService } from './services/auth.service';
-import { AuthGuard } from './security/auth.guard';
+import { AuthGuard } from './core/guards/auth.guard';
 import { MenuComponent } from './shared/menu.component';
 import { DoctorsListComponent } from './doctors/doctors-list.component';
 import { DoctorsService } from './services/doctors.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '../../node_modules/@angular/common/http';
-import { AuthInterceptor } from './services/auth.interceptor';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { AddDoctorComponent } from './doctors/add-doctor.component';
 import { AppRoutesModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -22,10 +23,11 @@ import { AppRoutesModule } from './app-routing.module';
     HomeComponent,
     MenuComponent,
     DoctorsListComponent,
-    AddDoctorComponent
+    AddDoctorComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     AppRoutesModule

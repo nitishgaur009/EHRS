@@ -11,7 +11,7 @@ namespace EHRS.API.Controllers
     public class AccountController : BaseController
     {
         [HttpGet]
-        [Authorization(Roles = new string[] { nameof(PermissionsEnum.CanRegisterAllUser), nameof(PermissionsEnum.CanRegisterPatient) })]
+        [Authorization(Roles = new string[] { nameof(PermissionsEnum.CanOperateAllUser), nameof(PermissionsEnum.CanRegisterPatient) })]
         public async Task<IHttpActionResult> RegisterUser()
         {
             return Ok();

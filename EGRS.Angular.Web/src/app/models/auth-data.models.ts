@@ -1,6 +1,8 @@
-export class AuthenticatedDataModel{
-    public username: string = '';
-    public role: string[] = [];
-    public isauthenticated: boolean = false;
-    public userid: number;
+import { IAuthData } from "../interfaces/auth-data.interface";
+export class AuthDataModel implements IAuthData {
+    Id = null;
+    FirstName = '';
+    LastName = '';
+    Email = '';
+    Roles = [];
 }
