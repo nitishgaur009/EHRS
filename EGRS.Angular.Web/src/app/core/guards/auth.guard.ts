@@ -15,7 +15,6 @@ export class AuthGuard implements CanActivate, OnDestroy {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     let accessAllowed: boolean = true;
-    debugger;
     this.checkAuthenticationSubscriber = this.authService.isCurrentlyAuthentic.subscribe(
        (isActive) => {
          if(!isActive) {
@@ -26,8 +25,7 @@ export class AuthGuard implements CanActivate, OnDestroy {
      );
 
      if(next.data.roles) {
-       debugger;
-      accessAllowed = next.data.roles.some((permission) => this.authService.authData.Roles[permission.toString()]);
+      accessAllowed = this.authService.checkAuthorization(next.data.roles);
      }
 
      return Helper.booleanObservable(accessAllowed);

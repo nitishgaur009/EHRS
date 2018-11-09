@@ -9,5 +9,6 @@ namespace EHRS.Common.Constants
         public const string Key_LoggedUserInfo = "UserAuthData";
         public const string RequestHeaderKey_Authorization = "Authorization";
         public const string RequestHeaderValue_Bearer = "Bearer ";
+        public const string BLL_Exception_Message = "Some error occured while executing BLL operation - ";
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EHRS.API.Filter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -24,6 +25,7 @@ namespace EHRS.API
             );
 
             config.MessageHandlers.Add(new TokenValidationHandler());
+            config.Filters.Add(new CustomExceptionFilter());
         }
     }
 }

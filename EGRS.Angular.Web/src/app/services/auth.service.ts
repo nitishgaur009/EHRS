@@ -4,9 +4,10 @@ import { LoginModel } from '../models/login.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import * as jwt_decode from "jwt-decode";
-import { appConstants } from '../shared/config';
+import { appConstants, PermissionsEnum } from '../shared/config';
 import { IAuthData } from '../interfaces/auth-data.interface';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
@@ -29,7 +30,8 @@ export class AuthService {
     return this._isAuthenticated.asObservable();
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+    private router: Router) {
     try {
       if (localStorage.getItem('userToken')) {
         this.authData = JSON.parse(jwt_decode(localStorage.getItem('userToken')).UserAuthData);
@@ -66,5 +68,9 @@ export class AuthService {
     this.resetAuthenticatedData();
     localStorage.removeItem("userToken");
     this._isAuthenticated.next(false);
+  }
+
+  checkAuthorization(roles: PermissionsEnum[]) {
+    return roles.some((permission) => this.authData.Roles[permission.toString()]);
   }
 }

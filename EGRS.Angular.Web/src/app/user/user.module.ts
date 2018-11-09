@@ -4,8 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { UserListComponent } from './list/user-list.component';
 import { UserComponent } from './user-form/user.component';
 import { UserService } from '../services/user.service';
+import { HelperService } from '../services/helper.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 const routes: Routes = [
   {
@@ -15,6 +17,10 @@ const routes: Routes = [
   {
     path: 'user/:userId',
     component: UserComponent
+  },
+  {
+    path: '',
+    redirectTo: 'list'
   }
 ]
 
@@ -24,9 +30,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [UserListComponent, UserComponent],
-  providers: [UserService]
+  providers: [UserService, HelperService]
 })
 export class UserModule { }

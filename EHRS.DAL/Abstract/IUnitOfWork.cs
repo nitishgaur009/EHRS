@@ -1,5 +1,6 @@
 ﻿using System;
 using EHRS.DAL.Abstract;
+using System.Threading.Tasks;
 
 namespace EHRS.DAL
 {
@@ -15,5 +16,7 @@ namespace EHRS.DAL
         IUserLoginRepository UserLoginRepository { get; }
 
         int Complete();
+
+        Task<int> CompleteAsync();
     }
 }

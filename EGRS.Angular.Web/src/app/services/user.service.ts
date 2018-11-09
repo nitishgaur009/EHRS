@@ -3,6 +3,7 @@ import { IUser, IUserList } from "../interfaces/user.interface";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { appConstants } from "../shared/config";
 import { Observable } from "rxjs";
+import { User } from "../models/user.model";
 
 
 @Injectable()
@@ -19,5 +20,9 @@ export class UserService {
         .set('userId', userId.toString());
         
         return this.http.get<IUser>(appConstants.urls.getUser, { params });
+    }
+
+    addUser(userModel: User): Observable<boolean> {
+        return this.http.post<boolean>(appConstants.urls.addUser, userModel);
     }
 }

@@ -14,7 +14,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { AddDoctorComponent } from './doctors/add-doctor.component';
 import { AppRoutesModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { NgProgressModule } from '@ngx-progressbar/core'; /** module for incorporating loader / spinner */
 
 @NgModule({
   declarations: [
@@ -30,7 +30,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    AppRoutesModule
+    AppRoutesModule,
+    NgProgressModule.forRoot()
   ],
   providers: [AuthService, AuthGuard, DoctorsService,
     {
@@ -38,6 +39,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       useClass : AuthInterceptor,
       multi : true
     }],
+    exports: [
+      NgProgressModule
+  ],
   bootstrap: [AppComponent]
 })
 

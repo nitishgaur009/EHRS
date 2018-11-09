@@ -1,6 +1,7 @@
 ﻿using EHRS.DAL.Abstract;
 using EHRS.DAL.Entity;
 using EHRS.DAL.Concrete;
+using System.Threading.Tasks;
 
 namespace EHRS.DAL
 {
@@ -80,6 +81,11 @@ namespace EHRS.DAL
         public int Complete()
         {
            return _context.SaveChanges();
+        }
+
+        public async Task<int> CompleteAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
 
         public void Dispose()

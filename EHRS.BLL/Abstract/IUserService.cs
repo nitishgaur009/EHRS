@@ -1,6 +1,7 @@
 ﻿
 using EHRS.BLL.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EHRS.BLL.Abstract
 {
@@ -8,7 +9,7 @@ namespace EHRS.BLL.Abstract
     {
         UserAuthDataModel Login(LoginModel userLoginModel);
 
-        bool RegisterUser(UserAuthDataModel userDataModel, string password, UserAuthDataModel loggedUser);
+        Task<bool> RegisterUser(UserModel userDataModel);
 
         IEnumerable<UserModel> GetAllUsers();
     }

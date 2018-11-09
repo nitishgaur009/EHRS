@@ -1,19 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { IUser } from '../../interfaces/user.interface';
+import { IUser, IUserRole } from '../../interfaces/user.interface';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RoleEnum } from '../../shared/config';
-
+import { User } from '../../models/user.model';
+import { HelperService } from '../../services/helper.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  userModel: IUser;
+  userModel: IUser = new User();
   userForm: FormGroup
   userId: number;
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings = {};
 
   get FirstName() {
     return this.userForm.get('FirstName');
@@ -23,16 +27,19 @@ export class UserComponent implements OnInit {
     return this.userForm.get('Email');
   }
 
-  roleOptions: any;
-  roles = RoleEnum;
+  get Roles() {
+    return this.userForm.get('Roles');
+  }
+
+  roleOptions: IUserRole[];
 
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router,
+    private helper: HelperService
     ) {
-      debugger;
-      this.roleOptions = Object.keys(RoleEnum).filter(Number);
     }
 
   ngOnInit() {
@@ -48,18 +55,56 @@ export class UserComponent implements OnInit {
     }
 
     this.initForm();
+
+    this.roleOptions = [
+      {
+        Id: RoleEnum.Admin,
+        Name: RoleEnum[RoleEnum.Admin]
+      },
+      {
+        Id: RoleEnum.Patient,
+        Name: RoleEnum[RoleEnum.Patient]
+      },
+      {
+        Id: RoleEnum.Doctor,
+        Name: RoleEnum[RoleEnum.Doctor]
+      },
+      {
+        Id: RoleEnum.LabTechnician,
+        Name: RoleEnum[RoleEnum.LabTechnician]
+      },
+      {
+        Id: RoleEnum.Operator,
+        Name: RoleEnum[RoleEnum.Operator]
+      },
+      {
+        Id: RoleEnum.Accountant,
+        Name: RoleEnum[RoleEnum.Accountant]
+      },
+      {
+        Id: RoleEnum.Compounder,
+        Name: RoleEnum[RoleEnum.Compounder]
+      }
+    ];
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'Id',
+      textField: 'Name',
+      allowSearchFilter: false,
+      enableCheckAll: false
+    };
   }
 
   initForm(): any {
     this.userForm = this.fb.group({
-      Id : [],
       FirstName: ['', [Validators.required]],
       LastName: [],
       Email: ['', [Validators.required, Validators.email]],
       MobileNumber: [],
       BirthDate: [],
       Address: [],
-      Roles: []
+      Roles: [[], [Validators.required]]
     });
   }
 
@@ -69,5 +114,20 @@ export class UserComponent implements OnInit {
         this.userModel = data;
       }
     )
+  }
+
+  saveUser() {
+    if(this.userForm.valid) {
+      Object.assign(this.userModel, this.userForm.value);
+      console.log(this.userModel);
+      this.userService.addUser(this.userModel).subscribe(
+        result => {
+          this.router.navigate(['users/list']);
+        },
+        error => {
+          this.helper.handleError(error);
+        }
+      )
+    }
   }
 }

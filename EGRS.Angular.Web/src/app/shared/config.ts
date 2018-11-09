@@ -3,6 +3,7 @@ class AppUrls {
     loginUrl = this.baseUrl + '/api/token';
     getUsers = this.baseUrl + '/api/User/GetAll';
     getUser = this.baseUrl + '/api/User/Get';
+    addUser = this.baseUrl + '/api/User/AddUser';
 }
 
 class AppConstants {

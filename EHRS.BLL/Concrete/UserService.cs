@@ -1,6 +1,8 @@
 ﻿using EHRS.BLL.Abstract;
 using EHRS.BLL.AutoMapper;
+using EHRS.BLL.CustomException;
 using EHRS.BLL.Models;
+using EHRS.Common.Constants;
 using EHRS.Common.Enums;
 using EHRS.DAL;
 using EHRS.DAL.Abstract;
@@ -9,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EHRS.BLL.Concrete
 {
@@ -27,7 +30,7 @@ namespace EHRS.BLL.Concrete
         {
             UserAuthDataModel userDataModel = null;
             byte[] passwordByte = Encoding.ASCII.GetBytes(loginModel.Password);
-            var userLoginEntity = _userDataRepo.SingleOrDefault(u => u.Email == loginModel.Email && u.Password == passwordByte);
+            var userLoginEntity = _userDataRepo.SingleOrDefault(u => u.Email == loginModel.Email && u.Password == passwordByte && u.Active != null && (bool)u.Active);
             if (userLoginEntity != null)
             {
                 userDataModel = Mapping.Mapper.Map<UserAuthDataModel>(userLoginEntity);
@@ -37,24 +40,31 @@ namespace EHRS.BLL.Concrete
             return userDataModel;
         }
 
-        public bool RegisterUser(UserAuthDataModel userDataModel, string password, UserAuthDataModel loggedUser)
+        public async Task<bool> RegisterUser(UserModel userDataModel)
         {
-            byte[] passwordByte = Encoding.ASCII.GetBytes(password);
-            UserLogin userLoginEntity = Mapping.Mapper.Map<UserLogin>(userDataModel);
-            userLoginEntity.Password = passwordByte;
-            userLoginEntity.Active = true;
-
-            foreach(var role in userDataModel.Roles)
+            try
             {
-                //userLoginEntity.UserRole.Add(new UserRole
-                //{
-                //    RoleId = role.Id
-                //});
+                byte[] passwordByte = Encoding.ASCII.GetBytes("dummy");
+                UserLogin userLoginEntity = Mapping.Mapper.Map<UserLogin>(userDataModel);
+                //userLoginEntity.Password = passwordByte;
+                userLoginEntity.Active = false;
+
+                foreach (var role in userDataModel.Roles)
+                {
+                    userLoginEntity.UserRole.Add(new UserRole
+                    {
+                        RoleId = role.Id
+                    });
+                }
+
+                _unitOfWork.UserLoginRepository.Add(userLoginEntity);
+
+                return await _unitOfWork.CompleteAsync() > 0;
             }
-
-            _unitOfWork.UserLoginRepository.Add(userLoginEntity);
-
-            return _unitOfWork.Complete() > 0;
+            catch(Exception ex)
+            {
+                throw new BllException(GlobalConstants.BLL_Exception_Message + nameof(RegisterUser), ex);
+            }
         }
 
         public IEnumerable<UserModel> GetAllUsers()

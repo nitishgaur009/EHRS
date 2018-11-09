@@ -53,6 +53,7 @@
     <Compile Include="AutoMapper\Mapping.cs" />
     <Compile Include="AutoMapper\MappingProfile.cs" />
     <Compile Include="Concrete\UserService.cs" />
+    <Compile Include="Exception\BllException.cs" />
     <Compile Include="Models\UserAuthDataModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
